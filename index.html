@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Skyfactory 3 - Sieve Recipes Pivot Table</title>
+<title>SkyFactory 3 - Sieve Recipes Pivot Table</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <style>
   body {
     background: #121212;
@@ -11,11 +12,13 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
   }
+
   h1 {
     text-align: center;
     color: #00eaff;
     margin-bottom: 20px;
   }
+
   .filters-container {
     max-width: 1200px;
     margin: 0 auto 20px auto;
@@ -24,16 +27,19 @@
     flex-wrap: wrap;
     align-items: flex-start;
   }
+
   .filter-group {
     display: flex;
     flex-direction: column;
     flex: 1 1 200px;
   }
+
   label {
     font-weight: bold;
     margin-bottom: 6px;
     user-select: none;
   }
+
   select {
     background: #2d2d2d;
     color: #eee;
@@ -44,10 +50,12 @@
     min-height: 140px;
     user-select: none;
   }
+
   select option {
     background: #2d2d2d;
     color: #eee;
   }
+
   #clear-filters {
     background: #00eaff;
     border: none;
@@ -61,10 +69,12 @@
     height: 40px;
     user-select: none;
   }
+
   #clear-filters:hover {
     background: #00b8cc;
     color: #fff;
   }
+
   table {
     border-collapse: collapse;
     width: 100%;
@@ -72,7 +82,9 @@
     margin: auto;
     table-layout: fixed;
   }
-  th, td {
+
+  th,
+  td {
     border: 1px solid #444;
     padding: 8px;
     vertical-align: top;
@@ -81,24 +93,29 @@
     word-wrap: break-word;
     font-size: 0.9rem;
   }
+
   th {
     background-color: #222;
     position: sticky;
     top: 0;
     z-index: 3;
   }
+
   td {
     background-color: #2a2a2a;
   }
+
   td.empty {
     color: #777;
     font-style: italic;
   }
+
   .cell-chance {
     font-weight: bold;
     color: #00eaff;
     user-select: none;
   }
+
   .row-label {
     display: flex;
     flex-direction: column;
@@ -106,6 +123,7 @@
     gap: 4px;
     text-align: center;
   }
+
   .row-label img {
     width: 28px;
     height: 28px;
@@ -113,174 +131,817 @@
     border: 1px solid #555;
     border-radius: 3px;
   }
+
   .row-label small {
     color: #999;
     font-size: 0.75rem;
     user-select: none;
     word-break: break-word;
   }
+
+  .item-name {
+    color: #eee;
+    font-weight: bold;
+  }
+
+  .item-id {
+    color: #666;
+    font-size: 0.7rem;
+  }
 </style>
 </head>
+
 <body>
 
-<h1>Skyfactory 3 - Sieve Recipes Pivot Table</h1>
+<h1>SkyFactory 3 - Sieve Recipes Pivot Table</h1>
 
 <div class="filters-container">
+
   <div class="filter-group">
-    <label for="input-filter">Filter Inputs (multi-select)</label>
-    <select id="input-filter" multiple size="8" title="Filter Inputs"></select>
+    <label for="input-filter">
+      Filter Inputs (multi-select)
+    </label>
+
+    <select
+      id="input-filter"
+      multiple
+      size="8"
+      title="Filter Inputs">
+    </select>
   </div>
+
   <div class="filter-group">
-    <label for="output-filter">Filter Outputs (multi-select)</label>
-    <select id="output-filter" multiple size="8" title="Filter Outputs"></select>
+    <label for="output-filter">
+      Filter Outputs (multi-select)
+    </label>
+
+    <select
+      id="output-filter"
+      multiple
+      size="8"
+      title="Filter Outputs">
+    </select>
   </div>
-  <button id="clear-filters">Clear Filters</button>
+
+  <button id="clear-filters">
+    Clear Filters
+  </button>
+
 </div>
 
 <div style="overflow-x:auto;">
-  <table id="pivot-table" aria-label="Sieve recipes pivot table">
+
+  <table
+    id="pivot-table"
+    aria-label="Sieve recipes pivot table">
+
     <thead>
       <tr id="pivot-header-titles"></tr>
     </thead>
+
     <tbody id="pivot-body"></tbody>
+
   </table>
+
 </div>
 
+
+<!-- PapaParse CSV library -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+
 <script>
-  function itemToImgHtml(itemName) {
-    const cleanName = itemName.replace(/[:.]/g, "_").replace(/\[TAG\]\s*/, "").toLowerCase();
-    const src = `img/items/${cleanName}.png`;
-    return `<img src="${src}" alt="${itemName}" title="${itemName}" onerror="this.style.display='none';"/>`;
-  }
 
-  let allData = [];
-  let uniqueInputs = new Set();
-  let uniqueOutputs = new Set();
-  let uniqueTiers = new Set();
+/* ============================================================
+   SKYFACTORY 3 / MINECRAFT 1.10.2
+   ITEM ID -> DISPLAY NAME
+   ============================================================ */
 
-  let selectedInputs = new Set();
-  let selectedOutputs = new Set();
+const itemNames = {
 
-  function buildPivotTable() {
-    const filteredData = allData.filter(row => {
-      const inputMatch = selectedInputs.size === 0 || selectedInputs.has(row.Input);
-      const outputMatch = selectedOutputs.size === 0 || selectedOutputs.has(row.Output);
-      return inputMatch && outputMatch;
+  // ------------------------------------------------------------
+  // MINECRAFT
+  // ------------------------------------------------------------
+
+  "minecraft:dirt:0":
+    "Dirt",
+
+  "minecraft:sand:0":
+    "Sand",
+
+  "minecraft:gravel:0":
+    "Gravel",
+
+  "minecraft:soul_sand:0":
+    "Soul Sand",
+
+  "minecraft:sponge:0":
+    "Sponge",
+
+  "minecraft:nether_wart:0":
+    "Nether Wart",
+
+  "minecraft:quartz:0":
+    "Nether Quartz",
+
+  "minecraft:ghast_tear:0":
+    "Ghast Tear",
+
+  "minecraft:flint:0":
+    "Flint",
+
+  "minecraft:coal:0":
+    "Coal",
+
+  "minecraft:diamond:0":
+    "Diamond",
+
+  "minecraft:emerald:0":
+    "Emerald",
+
+  "minecraft:redstone:0":
+    "Redstone",
+
+  "minecraft:glowstone_dust:0":
+    "Glowstone Dust",
+
+  "minecraft:gunpowder:0":
+    "Gunpowder",
+
+  "minecraft:blaze_powder:0":
+    "Blaze Powder",
+
+  "minecraft:chorus_flower:0":
+    "Chorus Flower",
+
+  "minecraft:prismarine_shard:0":
+    "Prismarine Shard",
+
+  "minecraft:prismarine_crystals:0":
+    "Prismarine Crystals",
+
+  "minecraft:brown_mushroom:0":
+    "Brown Mushroom",
+
+  "minecraft:red_mushroom:0":
+    "Red Mushroom",
+
+  "minecraft:rotten_flesh:0":
+    "Rotten Flesh",
+
+  "minecraft:waterlily:0":
+    "Lily Pad",
+
+  "minecraft:wheat_seeds:0":
+    "Wheat Seeds",
+
+  "minecraft:melon_seeds:0":
+    "Melon Seeds",
+
+  "minecraft:pumpkin_seeds:0":
+    "Pumpkin Seeds",
+
+  "minecraft:beetroot_seeds:0":
+    "Beetroot Seeds",
+
+
+  // ------------------------------------------------------------
+  // MINECRAFT DYE
+  // Minecraft 1.10.2 metadata
+  // ------------------------------------------------------------
+
+  "minecraft:dye:0":
+    "Ink Sac",
+
+  "minecraft:dye:1":
+    "Red Dye",
+
+  "minecraft:dye:2":
+    "Green Dye",
+
+  "minecraft:dye:3":
+    "Cocoa Beans",
+
+  "minecraft:dye:4":
+    "Lapis Lazuli",
+
+  "minecraft:dye:5":
+    "Purple Dye",
+
+  "minecraft:dye:6":
+    "Cyan Dye",
+
+  "minecraft:dye:7":
+    "Light Gray Dye",
+
+  "minecraft:dye:8":
+    "Gray Dye",
+
+  "minecraft:dye:9":
+    "Pink Dye",
+
+  "minecraft:dye:10":
+    "Lime Dye",
+
+  "minecraft:dye:11":
+    "Yellow Dye",
+
+  "minecraft:dye:12":
+    "Light Blue Dye",
+
+  "minecraft:dye:13":
+    "Magenta Dye",
+
+  "minecraft:dye:14":
+    "Orange Dye",
+
+  "minecraft:dye:15":
+    "Bone Meal"
+};
+
+
+/* ============================================================
+   RETURN FRIENDLY NAME IF WE KNOW IT
+   OTHERWISE RETURN THE ORIGINAL ID
+   ============================================================ */
+
+function displayName(itemId) {
+
+  return itemNames[itemId] || itemId;
+
+}
+
+
+/* ============================================================
+   ITEM IMAGE
+   ============================================================ */
+
+function itemToImgHtml(itemName) {
+
+  const cleanName = itemName
+    .replace(/[:.]/g, "_")
+    .replace(/\[TAG\]\s*/, "")
+    .toLowerCase();
+
+  const src = `img/items/${cleanName}.png`;
+
+  return `
+    <img
+      src="${src}"
+      alt="${itemName}"
+      title="${displayName(itemName)}"
+      onerror="this.style.display='none';"
+    />
+  `;
+}
+
+
+/* ============================================================
+   DATA
+   ============================================================ */
+
+let allData = [];
+
+let uniqueInputs = new Set();
+
+let uniqueOutputs = new Set();
+
+let uniqueTiers = new Set();
+
+let selectedInputs = new Set();
+
+let selectedOutputs = new Set();
+
+
+/* ============================================================
+   BUILD PIVOT TABLE
+   ============================================================ */
+
+function buildPivotTable() {
+
+  const filteredData = allData.filter(row => {
+
+    const inputMatch =
+      selectedInputs.size === 0 ||
+      selectedInputs.has(row.Input);
+
+    const outputMatch =
+      selectedOutputs.size === 0 ||
+      selectedOutputs.has(row.Output);
+
+    return inputMatch && outputMatch;
+
+  });
+
+
+  const tiers =
+    Array.from(uniqueTiers)
+      .sort((a, b) => a - b);
+
+
+  /*
+   * Each Input + Output combination becomes a row.
+   */
+
+  const rowsKeys =
+    Array.from(
+      new Set(
+        filteredData.map(
+          r => r.Input + '||' + r.Output
+        )
+      )
+    )
+    .sort((a, b) => {
+
+      const [inA, outA] = a.split('||');
+
+      const [inB, outB] = b.split('||');
+
+      return (
+        inA.localeCompare(inB) ||
+        outA.localeCompare(outB)
+      );
+
     });
 
-    const tiers = Array.from(uniqueTiers).sort((a, b) => a - b);
 
-    const rowsKeys = Array.from(new Set(filteredData.map(r => r.Input + '||' + r.Output)))
-      .sort((a, b) => {
-        const [inA, outA] = a.split('||');
-        const [inB, outB] = b.split('||');
-        return inA.localeCompare(inB) || outA.localeCompare(outB);
-      });
+  /* ----------------------------------------------------------
+     HEADER
+     ---------------------------------------------------------- */
 
-    const headerTitles = document.getElementById('pivot-header-titles');
-    headerTitles.innerHTML = '<th>Input</th><th>Output</th>';
+  const headerTitles =
+    document.getElementById(
+      'pivot-header-titles'
+    );
+
+  headerTitles.innerHTML =
+    '<th>Input</th><th>Output</th>';
+
+
+  tiers.forEach(tier => {
+
+    headerTitles.innerHTML +=
+      `<th>Mesh Tier ${tier}</th>`;
+
+  });
+
+
+  /* ----------------------------------------------------------
+     BODY
+     ---------------------------------------------------------- */
+
+  const body =
+    document.getElementById(
+      'pivot-body'
+    );
+
+  body.innerHTML = '';
+
+
+  rowsKeys.forEach(key => {
+
+    const [input, output] =
+      key.split('||');
+
+
+    const tr =
+      document.createElement('tr');
+
+
+    /* --------------------------------------------------------
+       INPUT
+       -------------------------------------------------------- */
+
+    const tdInput =
+      document.createElement('td');
+
+    tdInput.innerHTML = `
+
+      <div class="row-label">
+
+        ${itemToImgHtml(input)}
+
+        <div class="item-name">
+          ${displayName(input)}
+        </div>
+
+        <div class="item-id">
+          ${input}
+        </div>
+
+      </div>
+
+    `;
+
+    tr.appendChild(tdInput);
+
+
+    /* --------------------------------------------------------
+       OUTPUT
+       -------------------------------------------------------- */
+
+    const tdOutput =
+      document.createElement('td');
+
+    tdOutput.innerHTML = `
+
+      <div class="row-label">
+
+        ${itemToImgHtml(output)}
+
+        <div class="item-name">
+          ${displayName(output)}
+        </div>
+
+        <div class="item-id">
+          ${output}
+        </div>
+
+      </div>
+
+    `;
+
+    tr.appendChild(tdOutput);
+
+
+    /* --------------------------------------------------------
+       TIERS
+       -------------------------------------------------------- */
+
     tiers.forEach(tier => {
-      headerTitles.innerHTML += `<th>Tier ${tier}</th>`;
+
+      const td =
+        document.createElement('td');
+
+
+      /*
+       * Find all matching rolls.
+       *
+       * This is important for SF3 because the same item can
+       * appear more than once for the same input and mesh.
+       */
+
+      const matches =
+        filteredData.filter(r =>
+          r.Input === input &&
+          r.Output === output &&
+          r.Tier === tier
+        );
+
+
+      if (matches.length > 0) {
+
+        /*
+         * Display every roll rather than silently losing
+         * duplicate entries.
+         */
+
+        td.innerHTML =
+          matches
+            .map(match =>
+              `<div class="cell-chance">
+                ${match.DropChance}
+              </div>`
+            )
+            .join('');
+
+      } else {
+
+        td.classList.add('empty');
+
+        td.textContent = '-';
+
+      }
+
+
+      tr.appendChild(td);
+
     });
 
-    const body = document.getElementById('pivot-body');
-    body.innerHTML = '';
 
-    rowsKeys.forEach(key => {
-      const [input, output] = key.split('||');
-      const tr = document.createElement('tr');
+    body.appendChild(tr);
 
-      const tdInput = document.createElement('td');
-      tdInput.innerHTML = `<div class="row-label">${itemToImgHtml(input)}<small>${input}</small></div>`;
-      tr.appendChild(tdInput);
+  });
 
-      const tdOutput = document.createElement('td');
-      tdOutput.innerHTML = `<div class="row-label">${itemToImgHtml(output)}<small>${output}</small></div>`;
-      tr.appendChild(tdOutput);
+}
 
-      tiers.forEach(tier => {
-        const td = document.createElement('td');
-        const match = filteredData.find(r => r.Input === input && r.Output === output && r.Tier === tier);
-        if (match) {
-          td.innerHTML = `<span class="cell-chance">${match.DropChance}</span>`;
-        } else {
-          td.classList.add('empty');
-          td.textContent = '-';
+
+/* ============================================================
+   FILTERS
+   ============================================================ */
+
+function updateFilters() {
+
+  const inputFilter =
+    document.getElementById(
+      'input-filter'
+    );
+
+  const outputFilter =
+    document.getElementById(
+      'output-filter'
+    );
+
+
+  selectedInputs =
+    new Set(
+      Array.from(
+        inputFilter.selectedOptions
+      ).map(o => o.value)
+    );
+
+
+  selectedOutputs =
+    new Set(
+      Array.from(
+        outputFilter.selectedOptions
+      ).map(o => o.value)
+    );
+
+
+  buildPivotTable();
+
+}
+
+
+/* ============================================================
+   CLEAR FILTERS
+   ============================================================ */
+
+function clearFilters() {
+
+  const inputFilter =
+    document.getElementById(
+      'input-filter'
+    );
+
+  const outputFilter =
+    document.getElementById(
+      'output-filter'
+    );
+
+
+  for (
+    let i = 0;
+    i < inputFilter.options.length;
+    i++
+  ) {
+
+    inputFilter.options[i].selected = false;
+
+  }
+
+
+  for (
+    let i = 0;
+    i < outputFilter.options.length;
+    i++
+  ) {
+
+    outputFilter.options[i].selected = false;
+
+  }
+
+
+  selectedInputs.clear();
+
+  selectedOutputs.clear();
+
+  buildPivotTable();
+
+}
+
+
+/* ============================================================
+   EVENT HANDLERS
+   ============================================================ */
+
+document
+  .getElementById('input-filter')
+  .addEventListener(
+    'change',
+    updateFilters
+  );
+
+
+document
+  .getElementById('output-filter')
+  .addEventListener(
+    'change',
+    updateFilters
+  );
+
+
+document
+  .getElementById('clear-filters')
+  .addEventListener(
+    'click',
+    clearFilters
+  );
+
+
+/* ============================================================
+   LOAD CSV
+   ============================================================ */
+
+fetch('sieve_recipes.csv')
+
+  .then(r => {
+
+    if (!r.ok) {
+
+      throw new Error(
+        `HTTP ${r.status} loading sieve_recipes.csv`
+      );
+
+    }
+
+    return r.text();
+
+  })
+
+  .then(text => {
+
+    const parsed =
+      Papa.parse(
+        text,
+        {
+          header: true,
+          skipEmptyLines: true
         }
-        tr.appendChild(td);
-      });
+      );
 
-      body.appendChild(tr);
+
+    /* --------------------------------------------------------
+       LOAD EACH CSV ROW
+       -------------------------------------------------------- */
+
+    parsed.data.forEach(row => {
+
+      if (
+        row.Input &&
+        row.Output &&
+        row.Tier
+      ) {
+
+        allData.push({
+
+          Source:
+            row.Source,
+
+          Input:
+            row.Input,
+
+          Mesh:
+            row.Mesh,
+
+          Output:
+            row.Output,
+
+          Count:
+            row.Count,
+
+          DropChance:
+            row.DropChance,
+
+          Tier:
+            Number(row.Tier)
+
+        });
+
+
+        uniqueInputs.add(
+          row.Input
+        );
+
+        uniqueOutputs.add(
+          row.Output
+        );
+
+        uniqueTiers.add(
+          Number(row.Tier)
+        );
+
+      }
+
     });
-  }
 
-  function updateFilters() {
-    const inputFilter = document.getElementById('input-filter');
-    const outputFilter = document.getElementById('output-filter');
-    selectedInputs = new Set(Array.from(inputFilter.selectedOptions).map(o => o.value));
-    selectedOutputs = new Set(Array.from(outputFilter.selectedOptions).map(o => o.value));
-    buildPivotTable();
-  }
 
-  function clearFilters() {
-    const inputFilter = document.getElementById('input-filter');
-    const outputFilter = document.getElementById('output-filter');
-    for (let i = 0; i < inputFilter.options.length; i++) inputFilter.options[i].selected = false;
-    for (let i = 0; i < outputFilter.options.length; i++) outputFilter.options[i].selected = false;
-    selectedInputs.clear();
-    selectedOutputs.clear();
-    buildPivotTable();
-  }
+    /* --------------------------------------------------------
+       POPULATE INPUT FILTER
+       -------------------------------------------------------- */
 
-  document.getElementById('input-filter').addEventListener('change', updateFilters);
-  document.getElementById('output-filter').addEventListener('change', updateFilters);
-  document.getElementById('clear-filters').addEventListener('click', clearFilters);
+    const inputFilter =
+      document.getElementById(
+        'input-filter'
+      );
 
-  fetch('sieve_recipes.csv')
-    .then(r => r.text())
-    .then(text => {
-      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
-      parsed.data.forEach(row => {
-        if (row.Input && row.Output && row.Tier) {
-          allData.push({
-            Source: row.Source,
-            Input: row.Input,
-            Mesh: row.Mesh,
-            Output: row.Output,
-            Count: row.Count,
-            DropChance: row.DropChance,
-            Tier: Number(row.Tier),
-          });
-          uniqueInputs.add(row.Input);
-          uniqueOutputs.add(row.Output);
-          uniqueTiers.add(Number(row.Tier));
-        }
-      });
 
-      // Sorted filter population A-Z
-      const inputFilter = document.getElementById('input-filter');
-      Array.from(uniqueInputs).sort((a, b) => a.localeCompare(b)).forEach(val => {
-        const opt = document.createElement('option');
+    Array.from(uniqueInputs)
+
+      .sort((a, b) => {
+
+        return displayName(a)
+          .localeCompare(
+            displayName(b)
+          );
+
+      })
+
+      .forEach(val => {
+
+        const opt =
+          document.createElement(
+            'option'
+          );
+
         opt.value = val;
-        opt.textContent = val;
+
+        opt.textContent =
+          displayName(val);
+
         inputFilter.appendChild(opt);
+
       });
 
-      const outputFilter = document.getElementById('output-filter');
-      Array.from(uniqueOutputs).sort((a, b) => a.localeCompare(b)).forEach(val => {
-        const opt = document.createElement('option');
+
+    /* --------------------------------------------------------
+       POPULATE OUTPUT FILTER
+       -------------------------------------------------------- */
+
+    const outputFilter =
+      document.getElementById(
+        'output-filter'
+      );
+
+
+    Array.from(uniqueOutputs)
+
+      .sort((a, b) => {
+
+        return displayName(a)
+          .localeCompare(
+            displayName(b)
+          );
+
+      })
+
+      .forEach(val => {
+
+        const opt =
+          document.createElement(
+            'option'
+          );
+
         opt.value = val;
-        opt.textContent = val;
+
+        opt.textContent =
+          displayName(val);
+
         outputFilter.appendChild(opt);
+
       });
 
-      buildPivotTable();
-    })
-    .catch(err => {
-      console.error('Error loading CSV:', err);
-      document.body.insertAdjacentHTML('beforeend', '<p style="color:red; text-align:center;">Failed to load sieve_recipes.csv</p>');
-    });
+
+    /* --------------------------------------------------------
+       BUILD INITIAL TABLE
+       -------------------------------------------------------- */
+
+    buildPivotTable();
+
+  })
+
+
+  /* ==========================================================
+     ERROR HANDLING
+     ========================================================== */
+
+  .catch(err => {
+
+    console.error(
+      'Error loading CSV:',
+      err
+    );
+
+
+    document.body.insertAdjacentHTML(
+
+      'beforeend',
+
+      `
+        <p style="
+          color:red;
+          text-align:center;
+        ">
+          Failed to load sieve_recipes.csv
+        </p>
+      `
+
+    );
+
+  });
+
 </script>
+
 </body>
 </html>
