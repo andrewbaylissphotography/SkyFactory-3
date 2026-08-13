@@ -226,6 +226,13 @@
    ITEM ID -> DISPLAY NAME
    ============================================================ */
 
+const meshNames = {
+  1: "String Mesh",
+  2: "Flint Stiffened Mesh",
+  3: "Iron Stiffened Mesh",
+  4: "Diamond Stiffened Mesh"
+};
+
 const itemNames = {
 
   // ------------------------------------------------------------
@@ -432,12 +439,16 @@ function buildPivotTable() {
     '<th>Input</th><th>Output</th>';
 
 
-  tiers.forEach(tier => {
+tiers.forEach(tier => {
+  const meshName = meshNames[tier] || `Tier ${tier}`;
+  headerTitles.innerHTML += `
+    <th>
+      ${meshName}<br>
+      <small>Tier ${tier}</small>
+    </th>
+  `;
+});
 
-    headerTitles.innerHTML +=
-      `<th>Mesh Tier ${tier}</th>`;
-
-  });
 
 
   /* ----------------------------------------------------------
