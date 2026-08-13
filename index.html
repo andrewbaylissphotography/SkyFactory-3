@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ATM10 Sky - Sieve Recipes Pivot Table</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    background: #121212;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #00eaff;
+    margin-bottom: 20px;
+  }
+  .filters-container {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 200px;
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    user-select: none;
+  }
+  select {
+    background: #2d2d2d;
+    color: #eee;
+    border: none;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    min-height: 140px;
+    user-select: none;
+  }
+  select option {
+    background: #2d2d2d;
+    color: #eee;
+  }
+  #clear-filters {
+    background: #00eaff;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    font-size: 1rem;
+    align-self: center;
+    height: 40px;
+    user-select: none;
+  }
+  #clear-filters:hover {
+    background: #00b8cc;
+    color: #fff;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    table-layout: fixed;
+  }
+  th, td {
+    border: 1px solid #444;
+    padding: 8px;
+    vertical-align: top;
+    color: #eee;
+    text-align: center;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+  }
+  th {
+    background-color: #222;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  td {
+    background-color: #2a2a2a;
+  }
+  td.empty {
+    color: #777;
+    font-style: italic;
+  }
+  .cell-chance {
+    font-weight: bold;
+    color: #00eaff;
+    user-select: none;
+  }
+  .row-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+  .row-label img {
+    width: 28px;
+    height: 28px;
+    image-rendering: pixelated;
+    border: 1px solid #555;
+    border-radius: 3px;
+  }
+  .row-label small {
+    color: #999;
+    font-size: 0.75rem;
+    user-select: none;
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+
+<h1>ATM10 Sky - Sieve Recipes Pivot Table</h1>
+
+<div class="filters-container">
+  <div class="filter-group">
+    <label for="input-filter">Filter Inputs (multi-select)</label>
+    <select id="input-filter" multiple size="8" title="Filter Inputs"></select>
+  </div>
+  <div class="filter-group">
+    <label for="output-filter">Filter Outputs (multi-select)</label>
+    <select id="output-filter" multiple size="8" title="Filter Outputs"></select>
+  </div>
+  <button id="clear-filters">Clear Filters</button>
+</div>
+
+<div style="overflow-x:auto;">
+  <table id="pivot-table" aria-label="Sieve recipes pivot table">
+    <thead>
+      <tr id="pivot-header-titles"></tr>
+    </thead>
+    <tbody id="pivot-body"></tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+  function itemToImgHtml(itemName) {
+    const cleanName = itemName.replace(/[:.]/g, "_").replace(/\[TAG\]\s*/, "").toLowerCase();
+    const src = `img/items/${cleanName}.png`;
+    return `<img src="${src}" alt="${itemName}" title="${itemName}" onerror="this.style.display='none';"/>`;
+  }
+
+  let allData = [];
+  let uniqueInputs = new Set();
+  let uniqueOutputs = new Set();
+  let uniqueTiers = new Set();
+
+  let selectedInputs = new Set();
+  let selectedOutputs = new Set();
+
+  function buildPivotTable() {
+    const filteredData = allData.filter(row => {
+      const inputMatch = selectedInputs.size === 0 || selectedInputs.has(row.Input);
+      const outputMatch = selectedOutputs.size === 0 || selectedOutputs.has(row.Output);
+      return inputMatch && outputMatch;
+    });
+
+    const tiers = Array.from(uniqueTiers).sort((a, b) => a - b);
+
+    const rowsKeys = Array.from(new Set(filteredData.map(r => r.Input + '||' + r.Output)))
+      .sort((a, b) => {
+        const [inA, outA] = a.split('||');
+        const [inB, outB] = b.split('||');
+        return inA.localeCompare(inB) || outA.localeCompare(outB);
+      });
+
+    const headerTitles = document.getElementById('pivot-header-titles');
+    headerTitles.innerHTML = '<th>Input</th><th>Output</th>';
+    tiers.forEach(tier => {
+      headerTitles.innerHTML += `<th>Tier ${tier}</th>`;
+    });
+
+    const body = document.getElementById('pivot-body');
+    body.innerHTML = '';
+
+    rowsKeys.forEach(key => {
+      const [input, output] = key.split('||');
+      const tr = document.createElement('tr');
+
+      const tdInput = document.createElement('td');
+      tdInput.innerHTML = `<div class="row-label">${itemToImgHtml(input)}<small>${input}</small></div>`;
+      tr.appendChild(tdInput);
+
+      const tdOutput = document.createElement('td');
+      tdOutput.innerHTML = `<div class="row-label">${itemToImgHtml(output)}<small>${output}</small></div>`;
+      tr.appendChild(tdOutput);
+
+      tiers.forEach(tier => {
+        const td = document.createElement('td');
+        const match = filteredData.find(r => r.Input === input && r.Output === output && r.Tier === tier);
+        if (match) {
+          td.innerHTML = `<span class="cell-chance">${match.DropChance}</span>`;
+        } else {
+          td.classList.add('empty');
+          td.textContent = '-';
+        }
+        tr.appendChild(td);
+      });
+
+      body.appendChild(tr);
+    });
+  }
+
+  function updateFilters() {
+    const inputFilter = document.getElementById('input-filter');
+    const outputFilter = document.getElementById('output-filter');
+    selectedInputs = new Set(Array.from(inputFilter.selectedOptions).map(o => o.value));
+    selectedOutputs = new Set(Array.from(outputFilter.selectedOptions).map(o => o.value));
+    buildPivotTable();
+  }
+
+  function clearFilters() {
+    const inputFilter = document.getElementById('input-filter');
+    const outputFilter = document.getElementById('output-filter');
+    for (let i = 0; i < inputFilter.options.length; i++) inputFilter.options[i].selected = false;
+    for (let i = 0; i < outputFilter.options.length; i++) outputFilter.options[i].selected = false;
+    selectedInputs.clear();
+    selectedOutputs.clear();
+    buildPivotTable();
+  }
+
+  document.getElementById('input-filter').addEventListener('change', updateFilters);
+  document.getElementById('output-filter').addEventListener('change', updateFilters);
+  document.getElementById('clear-filters').addEventListener('click', clearFilters);
+
+  fetch('sieve_recipes.csv')
+    .then(r => r.text())
+    .then(text => {
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      parsed.data.forEach(row => {
+        if (row.Input && row.Output && row.Tier) {
+          allData.push({
+            Source: row.Source,
+            Input: row.Input,
+            Mesh: row.Mesh,
+            Output: row.Output,
+            Count: row.Count,
+            DropChance: row.DropChance,
+            Tier: Number(row.Tier),
+          });
+          uniqueInputs.add(row.Input);
+          uniqueOutputs.add(row.Output);
+          uniqueTiers.add(Number(row.Tier));
+        }
+      });
+
+      // Sorted filter population A-Z
+      const inputFilter = document.getElementById('input-filter');
+      Array.from(uniqueInputs).sort((a, b) => a.localeCompare(b)).forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val;
+        inputFilter.appendChild(opt);
+      });
+
+      const outputFilter = document.getElementById('output-filter');
+      Array.from(uniqueOutputs).sort((a, b) => a.localeCompare(b)).forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val;
+        outputFilter.appendChild(opt);
+      });
+
+      buildPivotTable();
+    })
+    .catch(err => {
+      console.error('Error loading CSV:', err);
+      document.body.insertAdjacentHTML('beforeend', '<p style="color:red; text-align:center;">Failed to load sieve_recipes.csv</p>');
+    });
+</script>
+</body>
+</html>
