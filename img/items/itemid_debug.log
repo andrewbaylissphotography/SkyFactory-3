@@ -14,22 +14,22 @@
 [FOUND] minecraft:dirt:0 -> assets/minecraft/textures/blocks/dirt.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [MISSING] exnihiloadscensio:itemMaterial:4
 [FOUND] exnihiloadscensio:itemPebble:0 -> assets/exnihiloadscensio/textures/items/itemPebble.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
-[MISSING] exnihiloadscensio:itemSeedAcacia:0
-[MISSING] exnihiloadscensio:itemSeedBirch:0
-[MISSING] exnihiloadscensio:itemSeedCarrot:0
-[MISSING] exnihiloadscensio:itemSeedDarkOak:0
-[MISSING] exnihiloadscensio:itemSeedJungle:0
-[MISSING] exnihiloadscensio:itemSeedOak:0
-[MISSING] exnihiloadscensio:itemSeedPotato:0
-[MISSING] exnihiloadscensio:itemSeedSpruce:0
-[MISSING] exnihiloadscensio:itemSeedSugarcane:0
+[FOUND] exnihiloadscensio:itemSeedAcacia:0 -> assets/exnihiloadscensio/textures/items/seedAcacia.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedBirch:0 -> assets/exnihiloadscensio/textures/items/seedBirch.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedCarrot:0 -> assets/exnihiloadscensio/textures/items/seedCarrot.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedDarkOak:0 -> assets/exnihiloadscensio/textures/items/seedDarkOak.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedJungle:0 -> assets/exnihiloadscensio/textures/items/seedJungle.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedOak:0 -> assets/exnihiloadscensio/textures/items/seedOak.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedPotato:0 -> assets/exnihiloadscensio/textures/items/seedPotato.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedSpruce:0 -> assets/exnihiloadscensio/textures/items/seedSpruce.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemSeedSugarcane:0 -> assets/exnihiloadscensio/textures/items/seedSugarcane.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
 [FOUND] minecraft:melon_seeds:0 -> assets/minecraft/textures/items/seeds_melon.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:pumpkin_seeds:0 -> assets/minecraft/textures/items/seeds_pumpkin.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:wheat_seeds:0 -> assets/minecraft/textures/items/seeds_wheat.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:gravel:0 -> assets/minecraft/textures/blocks/gravel.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:flint:0 -> assets/minecraft/textures/items/flint.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:sand:0 -> assets/minecraft/textures/blocks/sand.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
-[MISSING] exnihiloadscensio:itemSeedCactus:0
+[FOUND] exnihiloadscensio:itemSeedCactus:0 -> assets/exnihiloadscensio/textures/items/seedCactus.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
 [FOUND] minecraft:soul_sand:0 -> assets/minecraft/textures/blocks/soul_sand.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [FOUND] minecraft:nether_wart:0 -> assets/minecraft/textures/items/nether_wart.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
 [MISSING] natura:nether_berrybush_blightberry:3

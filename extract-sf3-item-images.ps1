@@ -131,7 +131,7 @@ Write-Host "Unique items found: $($itemIds.Count)" -ForegroundColor Green
 $customMappings = @{
 
     # ========================================================
-    # Minecraft metadata
+    # minecraft
     # ========================================================
 
     "minecraft:dye:0"  = "dye_powder_black"
@@ -151,10 +151,6 @@ $customMappings = @{
     "minecraft:dye:14" = "dye_powder_orange"
     "minecraft:dye:15" = "dye_powder_white"
 
-    # ========================================================
-    # Minecraft
-    # ========================================================
-
     "minecraft:melon_seeds:0"   = "seeds_melon"
     "minecraft:pumpkin_seeds:0" = "seeds_pumpkin"
     "minecraft:wheat_seeds:0"   = "seeds_wheat"
@@ -162,6 +158,21 @@ $customMappings = @{
     "minecraft:brown_mushroom:0" = "brown_mushroom"
     "minecraft:red_mushroom:0"   = "red_mushroom"
     "minecraft:redstone:0"       = "redstone_dust"
+
+    # ========================================================
+    # exnihiloadscensio
+    # ========================================================
+
+"exnihiloadscensio:itemSeedAcacia:0"    = "seedAcacia"
+"exnihiloadscensio:itemSeedBirch:0"     = "seedBirch"
+"exnihiloadscensio:itemSeedCarrot:0"    = "seedCarrot"
+"exnihiloadscensio:itemSeedDarkOak:0"   = "seedDarkOak"
+"exnihiloadscensio:itemSeedJungle:0"    = "seedJungle"
+"exnihiloadscensio:itemSeedOak:0"       = "seedOak"
+"exnihiloadscensio:itemSeedPotato:0"    = "seedPotato"
+"exnihiloadscensio:itemSeedSpruce:0"    = "seedSpruce"
+"exnihiloadscensio:itemSeedSugarcane:0" = "seedSugarCane"
+"exnihiloadscensio:itemSeedCactus:0"    = "seedCactus"
 
 }
 
