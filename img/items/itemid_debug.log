@@ -1,0 +1,97 @@
+[FOUND] exnihiloadscensio:blockDust:0 -> assets/exnihiloadscensio/textures/blocks/blockDust.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[MISSING] exnihiloadscensio:itemOreAluminium:0
+[MISSING] exnihiloadscensio:itemOreCopper:0
+[MISSING] exnihiloadscensio:itemOreGold:0
+[MISSING] exnihiloadscensio:itemOreIron:0
+[MISSING] exnihiloadscensio:itemOreLead:0
+[MISSING] exnihiloadscensio:itemOreNickel:0
+[MISSING] exnihiloadscensio:itemOreSilver:0
+[FOUND] minecraft:dye:15 -> assets/minecraft/textures/items/dye_powder_white.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] exnihiloadscensio:blockEndstoneCrushed:0 -> assets/exnihiloadscensio/textures/blocks/blockEndstoneCrushed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[MISSING] extrautils2:enderlilly:0
+[MISSING] extrautils2:endershard:0
+[FOUND] minecraft:chorus_flower:0 -> assets/minecraft/textures/blocks/chorus_flower.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:dirt:0 -> assets/minecraft/textures/blocks/dirt.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] exnihiloadscensio:itemMaterial:4
+[FOUND] exnihiloadscensio:itemPebble:0 -> assets/exnihiloadscensio/textures/items/itemPebble.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[MISSING] exnihiloadscensio:itemSeedAcacia:0
+[MISSING] exnihiloadscensio:itemSeedBirch:0
+[MISSING] exnihiloadscensio:itemSeedCarrot:0
+[MISSING] exnihiloadscensio:itemSeedDarkOak:0
+[MISSING] exnihiloadscensio:itemSeedJungle:0
+[MISSING] exnihiloadscensio:itemSeedOak:0
+[MISSING] exnihiloadscensio:itemSeedPotato:0
+[MISSING] exnihiloadscensio:itemSeedSpruce:0
+[MISSING] exnihiloadscensio:itemSeedSugarcane:0
+[FOUND] minecraft:melon_seeds:0 -> assets/minecraft/textures/items/seeds_melon.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:pumpkin_seeds:0 -> assets/minecraft/textures/items/seeds_pumpkin.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:wheat_seeds:0 -> assets/minecraft/textures/items/seeds_wheat.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:gravel:0 -> assets/minecraft/textures/blocks/gravel.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:flint:0 -> assets/minecraft/textures/items/flint.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:sand:0 -> assets/minecraft/textures/blocks/sand.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] exnihiloadscensio:itemSeedCactus:0
+[FOUND] minecraft:soul_sand:0 -> assets/minecraft/textures/blocks/soul_sand.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:nether_wart:0 -> assets/minecraft/textures/items/nether_wart.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] natura:nether_berrybush_blightberry:3
+[MISSING] natura:nether_berrybush_duskberry:3
+[MISSING] natura:nether_berrybush_skyberry:3
+[MISSING] natura:nether_berrybush_stingberry:3
+[MISSING] natura:nether_sapling:0
+[MISSING] natura:nether_sapling:1
+[MISSING] natura:nether_sapling:2
+[MISSING] natura:nether_sapling:3
+[FOUND] minecraft:sponge:0 -> assets/minecraft/textures/blocks/sponge.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] harvestcraft:saltItem:0 -> assets/harvestcraft/textures/items/saltItem.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\Pam's HarvestCraft 1.9.4-1.10.2h.jar
+[FOUND] harvestcraft:whitemushroomseedItem:0 -> assets/harvestcraft/textures/items/whitemushroomseedItem.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\Pam's HarvestCraft 1.9.4-1.10.2h.jar
+[MISSING] minecraft:brown_mushroom:0
+[FOUND] minecraft:dye:0 -> assets/minecraft/textures/items/dye_powder_black.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:prismarine_crystals:0 -> assets/minecraft/textures/items/prismarine_crystals.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:prismarine_shard:0 -> assets/minecraft/textures/items/prismarine_shard.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] minecraft:red_mushroom:0
+[FOUND] minecraft:rotten_flesh:0 -> assets/minecraft/textures/items/rotten_flesh.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:waterlily:0 -> assets/minecraft/textures/blocks/waterlily.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] natura:colored_grass:0
+[MISSING] natura:overworld_berrybush_blackberry:0
+[MISSING] natura:overworld_berrybush_blueberry:0
+[MISSING] natura:overworld_berrybush_maloberry:0
+[MISSING] natura:overworld_berrybush_raspberry:0
+[MISSING] natura:overworld_sapling:0
+[MISSING] natura:overworld_sapling:1
+[MISSING] natura:overworld_sapling:3
+[MISSING] natura:overworld_sapling2:0
+[MISSING] natura:overworld_sapling2:1
+[MISSING] natura:overworld_sapling2:2
+[MISSING] natura:overworld_sapling2:3
+[FOUND] natura:redwood_sapling:0 -> assets/natura/textures/blocks/saplings/overworld/redwood_sapling.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\natura-1.10.2-4.1.0.80.jar
+[FOUND] actuallyadditions:itemDust:7 -> assets/actuallyadditions/textures/items/itemDust.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\ActuallyAdditions-1.10.2-r105.jar
+[FOUND] minecraft:gunpowder:0 -> assets/minecraft/textures/items/gunpowder.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] actuallyadditions:itemCanolaSeed:0 -> assets/actuallyadditions/textures/items/itemCanolaSeed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\ActuallyAdditions-1.10.2-r105.jar
+[FOUND] actuallyadditions:itemCoffeeSeed:0 -> assets/actuallyadditions/textures/items/itemCoffeeSeed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\ActuallyAdditions-1.10.2-r105.jar
+[FOUND] actuallyadditions:itemFlaxSeed:0 -> assets/actuallyadditions/textures/items/itemFlaxSeed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\ActuallyAdditions-1.10.2-r105.jar
+[FOUND] actuallyadditions:itemRiceSeed:0 -> assets/actuallyadditions/textures/items/itemRiceSeed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\ActuallyAdditions-1.10.2-r105.jar
+[FOUND] exnihiloadscensio:itemPebble:1 -> assets/exnihiloadscensio/textures/items/itemPebble.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemPebble:2 -> assets/exnihiloadscensio/textures/items/itemPebble.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] exnihiloadscensio:itemPebble:3 -> assets/exnihiloadscensio/textures/items/itemPebble.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[FOUND] integrateddynamics:menrilSapling:0 -> assets/integrateddynamics/textures/blocks/menrilSapling.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\IntegratedDynamics-1.10.2-0.7.12.jar
+[FOUND] minecraft:beetroot_seeds:0 -> assets/minecraft/textures/items/beetroot_seeds.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:coal:0 -> assets/minecraft/textures/items/coal.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:dye:4 -> assets/minecraft/textures/items/dye_powder_blue.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:dye:3 -> assets/minecraft/textures/items/dye_powder_brown.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] actuallyadditions:itemMisc:5
+[FOUND] minecraft:quartz:0 -> assets/minecraft/textures/items/quartz.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:blaze_powder:0 -> assets/minecraft/textures/items/blaze_powder.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:glowstone_dust:0 -> assets/minecraft/textures/items/glowstone_dust.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:redstone:0 -> assets/minecraft/textures/items/redstone_dust.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] draconicevolution:draconium_dust:0 -> assets/draconicevolution/textures/items/components/draconium_dust.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\Draconic-Evolution-1.10.2-2.1.8.273-universal.jar
+[MISSING] enderio:itemPowderIngot:5
+[FOUND] exnihiloadscensio:blockNetherrackCrushed:0 -> assets/exnihiloadscensio/textures/blocks/blockNetherrackCrushed.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\exnihiloadscensio-1.10.2-0.1.20.jar
+[MISSING] exnihiloadscensio:itemOreArdite:0
+[MISSING] exnihiloadscensio:itemOreCobalt:0
+[FOUND] minecraft:diamond:0 -> assets/minecraft/textures/items/diamond.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[MISSING] bigreactors:dustmetals:0
+[MISSING] exnihiloadscensio:itemMaterial:3
+[FOUND] mysticalagriculture:prosperity_shard:0 -> assets/mysticalagriculture/textures/items/prosperity_shard.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\mysticalagriculture[1.10.2]-1.5.8.jar
+[FOUND] tp:QuartzDust:0 -> assets/tp/textures/items/QuartzDust.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\tinyprogressions-1.10.2-1.1.0.jar
+[FOUND] darkutils:shulker_pearl:0 -> assets/darkutils/textures/items/shulker_pearl.png -> S:\Curseforge\Minecraft\Instances\FTB Presents SkyFactory 3\mods\DarkUtilities-1.1.8.finalrc2.jar
+[FOUND] minecraft:emerald:0 -> assets/minecraft/textures/items/emerald.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
+[FOUND] minecraft:ghast_tear:0 -> assets/minecraft/textures/items/ghast_tear.png -> S:\Curseforge\Minecraft\Install\versions\1.10.2\1.10.2.jar
