@@ -1,374 +1,479 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<title>SkyFactory 3 - Sieve Recipes Pivot Table</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <title>SkyFactory 3 - Sieve Recipes Pivot Table</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<style>
-  body {
-    background: #121212;
-    color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-  }
+  <style>
+    body {
+      background: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
 
-  h1, p {
-    text-align: center;
-    color: #00eaff;
-    margin-bottom: 20px;
-  }
+    h1,
+    p {
+      text-align: center;
+      color: #00eaff;
+      margin-bottom: 20px;
+    }
 
-  .filters-container {
-    max-width: 1200px;
-    margin: 0 auto 20px auto;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
+    .filters-container {
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+    }
 
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 200px;
-  }
+    #clear-filters {
+      flex-basis: 100%;
+      width: fit-content;
+      margin: 0 auto;
+    }
 
-  label {
-    font-weight: bold;
-    margin-bottom: 6px;
-    user-select: none;
-  }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+    }
 
-  select {
-    background: #2d2d2d;
-    color: #eee;
-    border: none;
-    padding: 6px 8px;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    min-height: 140px;
-    user-select: none;
-  }
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+      user-select: none;
+    }
 
-  select option {
-    background: #2d2d2d;
-    color: #eee;
-  }
+    select {
+      background: #2d2d2d;
+      color: #eee;
+      border: none;
+      padding: 6px 8px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      min-height: 140px;
+      user-select: none;
+    }
 
-  #clear-filters {
-    background: #00eaff;
-    border: none;
-    padding: 8px 24px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #000;
-    font-size: 1rem;
-    align-self: center;
-    height: 40px;
-    user-select: none;
-  }
+    select option {
+      background: #2d2d2d;
+      color: #eee;
+    }
 
-  #clear-filters:hover {
-    background: #00b8cc;
-    color: #fff;
-  }
+    #clear-filters {
+      background: #00eaff;
+      border: none;
+      padding: 8px 24px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      font-size: 1rem;
+      align-self: center;
+      height: 40px;
+      user-select: none;
+    }
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    table-layout: fixed;
-  }
+    #clear-filters:hover {
+      background: #00b8cc;
+      color: #fff;
+    }
 
-  th,
-  td {
-    border: 1px solid #444;
-    padding: 8px;
-    vertical-align: top;
-    color: #eee;
-    text-align: center;
-    word-wrap: break-word;
-    font-size: 0.9rem;
-  }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      table-layout: fixed;
+    }
 
-  th {
-    background-color: #222;
-    position: sticky;
-    top: 0;
-    z-index: 3;
-  }
+    th,
+    td {
+      border: 1px solid #444;
+      padding: 8px;
+      vertical-align: top;
+      color: #eee;
+      text-align: center;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+    }
 
-  td {
-    background-color: #2a2a2a;
-  }
+    th {
+      background-color: #222;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
 
-  td.empty {
-    color: #777;
-    font-style: italic;
-  }
+    td {
+      background-color: #2a2a2a;
+    }
 
-  .cell-chance {
-    font-weight: bold;
-    color: #00eaff;
-    user-select: none;
-  }
+    td.empty {
+      color: #777;
+      font-style: italic;
+    }
 
-  .row-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
-  }
+    .cell-chance {
+      font-weight: bold;
+      color: #00eaff;
+      user-select: none;
+    }
 
-  .row-label img {
-    width: 28px;
-    height: 28px;
-    image-rendering: pixelated;
-    border: 1px solid #555;
-    border-radius: 3px;
-  }
+    .row-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+    }
 
-  .row-label small {
-    color: #999;
-    font-size: 0.75rem;
-    user-select: none;
-    word-break: break-word;
-  }
+    .row-label img {
+      width: 28px;
+      height: 28px;
+      image-rendering: pixelated;
+      border: 1px solid #555;
+      border-radius: 3px;
+    }
 
-  .item-name {
-    color: #eee;
-    font-weight: bold;
-  }
+    .row-label small {
+      color: #999;
+      font-size: 0.75rem;
+      user-select: none;
+      word-break: break-word;
+    }
 
-  .item-id {
-    color: #666;
-    font-size: 0.7rem;
-  }
-</style>
+    .item-name {
+      color: #eee;
+      font-weight: bold;
+    }
+
+    .item-id {
+      color: #666;
+      font-size: 0.7rem;
+    }
+
+    #item-search::placeholder {
+      color: #777;
+    }
+
+    .search-mode label {
+      font-weight: normal;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .search-container {
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
+      text-align: center;
+    }
+
+    .search-container label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    #item-search {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box;
+
+      background: #2d2d2d;
+      color: #eee;
+      border: 1px solid #444;
+
+      padding: 10px 12px;
+      font-size: 1rem;
+      border-radius: 4px;
+    }
+
+    #item-search:focus {
+      outline: 1px solid #00eaff;
+      border-color: #00eaff;
+    }
+
+    #item-search::placeholder {
+      color: #777;
+    }
+
+    .search-mode {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    .search-mode label {
+      display: inline;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>SkyFactory 3 - Sieve Recipes</h1>
+  <h1>SkyFactory 3 - Sieve Recipes</h1>
 
-<p>
-  Dataset:
-  <strong>FTB Presents SkyFactory 3 3.0.22</strong>
-  —
-  <a href="https://www.curseforge.com/minecraft/modpacks/ftb-presents-skyfactory-3/files/3558966" target="_blank">
-    CurseForge
-  </a>
-</p>
+  <p>
+    Dataset:
+    <strong>FTB Presents SkyFactory 3 3.0.22</strong>
+    —
+    <a href="https://www.curseforge.com/minecraft/modpacks/ftb-presents-skyfactory-3/files/3558966" target="_blank">
+      CurseForge
+    </a>
+  </p>
 
-<div class="filters-container">
 
-  <div class="filter-group">
-    <label for="input-filter">
-      Filter Inputs (multi-select)
+  <!-- SEARCH -->
+
+  <div class="search-container">
+
+    <label for="item-search">
+      Search Items
     </label>
 
-    <select
-      id="input-filter"
-      multiple
-      size="8"
-      title="Filter Inputs">
-    </select>
+    <input type="text" id="item-search" placeholder="Search item name or ID..." />
+
+    <div class="search-mode">
+
+      <label>
+        <input type="radio" name="search-mode" value="input" checked />
+        Input
+      </label>
+
+      <label>
+        <input type="radio" name="search-mode" value="output" />
+        Output
+      </label>
+
+    </div>
+
   </div>
 
-  <div class="filter-group">
-    <label for="output-filter">
-      Filter Outputs (multi-select)
-    </label>
+  <!-- FILTERS -->
 
-    <select
-      id="output-filter"
-      multiple
-      size="8"
-      title="Filter Outputs">
-    </select>
+  <div class="filters-container">
+
+    <!-- INPUT FILTER -->
+    <div class="filter-group">
+
+      <label for="input-filter">
+        Filter Inputs (multi-select)
+      </label>
+
+      <select
+        id="input-filter"
+        multiple
+        size="8"
+        title="Filter Inputs">
+      </select>
+
+    </div>
+
+
+    <!-- OUTPUT FILTER -->
+    <div class="filter-group">
+
+      <label for="output-filter">
+        Filter Outputs (multi-select)
+      </label>
+
+      <select
+        id="output-filter"
+        multiple
+        size="8"
+        title="Filter Outputs">
+      </select>
+
+    </div>
+
+
+    <!-- CLEAR BUTTON -->
+    <button id="clear-filters">
+      Clear Filters
+    </button>
+
   </div>
 
-  <button id="clear-filters">
-    Clear Filters
-  </button>
-
-</div>
-
-<div style="overflow-x:auto;">
-
-  <table
-    id="pivot-table"
-    aria-label="Sieve recipes pivot table">
-
-    <thead>
-      <tr id="pivot-header-titles"></tr>
-    </thead>
-
-    <tbody id="pivot-body"></tbody>
-
-  </table>
-
-</div>
 
 
-<!-- PapaParse CSV library -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <div style="overflow-x:auto;">
+
+    <table id="pivot-table" aria-label="Sieve recipes pivot table">
+
+      <thead>
+        <tr id="pivot-header-titles"></tr>
+      </thead>
+
+      <tbody id="pivot-body"></tbody>
+
+    </table>
+
+  </div>
 
 
-<script>
+  <!-- PapaParse CSV library -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-/* ============================================================
-   SKYFACTORY 3 / MINECRAFT 1.10.2
-   ITEM ID -> DISPLAY NAME
-   ============================================================ */
 
-const meshNames = {
-  1: "String Mesh",
-  2: "Flint Stiffened Mesh",
-  3: "Iron Stiffened Mesh",
-  4: "Diamond Stiffened Mesh"
-};
+  <script>
 
-const itemNames = {
+    /* ============================================================
+       SKYFACTORY 3 / MINECRAFT 1.10.2
+       ITEM ID -> DISPLAY NAME
+       ============================================================ */
 
-  // ------------------------------------------------------------
-  // minecraft
-  // ------------------------------------------------------------
+    const meshNames = {
+      1: "String Mesh",
+      2: "Flint Stiffened Mesh",
+      3: "Iron Stiffened Mesh",
+      4: "Diamond Stiffened Mesh"
+    };
 
-  "minecraft:dirt:0": "minecraft: Dirt",
-  "minecraft:sand:0": "minecraft: Sand",
-  "minecraft:gravel:0": "minecraft: Gravel",
-  "minecraft:soul_sand:0": "minecraft: Soul Sand",
-  "minecraft:sponge:0": "minecraft: Sponge",
-  "minecraft:nether_wart:0": "minecraft: Nether Wart",
-  "minecraft:quartz:0": "minecraft: Nether Quartz",
-  "minecraft:ghast_tear:0": "minecraft: Ghast Tear",
-  "minecraft:flint:0": "minecraft: Flint",
-  "minecraft:coal:0": "minecraft: Coal",
-  "minecraft:diamond:0": "minecraft: Diamond",
-  "minecraft:emerald:0": "minecraft: Emerald",
-  "minecraft:redstone:0": "minecraft: Redstone",
-  "minecraft:glowstone_dust:0": "minecraft: Glowstone Dust",
-  "minecraft:gunpowder:0": "minecraft: Gunpowder",
-  "minecraft:blaze_powder:0": "minecraft: Blaze Powder",
-  "minecraft:chorus_flower:0": "minecraft: Chorus Flower",
-  "minecraft:prismarine_shard:0": "minecraft: Prismarine Shard",
-  "minecraft:prismarine_crystals:0": "minecraft: Prismarine Crystals",
-  "minecraft:brown_mushroom:0": "minecraft: Brown Mushroom",
-  "minecraft:red_mushroom:0": "minecraft: Red Mushroom",
-  "minecraft:rotten_flesh:0": "minecraft: Rotten Flesh",
-  "minecraft:waterlily:0": "minecraft: Lily Pad",
-  "minecraft:wheat_seeds:0": "minecraft: Wheat Seeds",
-  "minecraft:melon_seeds:0": "minecraft: Melon Seeds",
-  "minecraft:pumpkin_seeds:0": "minecraft: Pumpkin Seeds",
-  "minecraft:beetroot_seeds:0": "minecraft: Beetroot Seeds",
+    const itemNames = {
 
-  // ------------------------------------------------------------
-  // MINECRAFT DYE
-  // Minecraft 1.10.2 metadata
-  // ------------------------------------------------------------
+      // ------------------------------------------------------------
+      // minecraft
+      // ------------------------------------------------------------
 
-  "minecraft:dye:0": "minecraft: Ink Sac",
-  "minecraft:dye:1": "minecraft: Red Dye",
-  "minecraft:dye:2": "minecraft: Green Dye",
-  "minecraft:dye:3": "minecraft: Cocoa Beans",
-  "minecraft:dye:4": "minecraft: Lapis Lazuli",
-  "minecraft:dye:5": "minecraft: Purple Dye",
-  "minecraft:dye:6": "minecraft: Cyan Dye",
-  "minecraft:dye:7": "minecraft: Light Gray Dye",
-  "minecraft:dye:8": "minecraft: Gray Dye",
-  "minecraft:dye:9": "minecraft: Pink Dye",
-  "minecraft:dye:10": "minecraft: Lime Dye",
-  "minecraft:dye:11": "minecraft: Yellow Dye",
-  "minecraft:dye:12": "minecraft: Light Blue Dye",
-  "minecraft:dye:13": "minecraft: Magenta Dye",
-  "minecraft:dye:14": "minecraft: Orange Dye",
-  "minecraft:dye:15": "minecraft: Bone Meal",
+      "minecraft:dirt:0": "minecraft: Dirt",
+      "minecraft:sand:0": "minecraft: Sand",
+      "minecraft:gravel:0": "minecraft: Gravel",
+      "minecraft:soul_sand:0": "minecraft: Soul Sand",
+      "minecraft:sponge:0": "minecraft: Sponge",
+      "minecraft:nether_wart:0": "minecraft: Nether Wart",
+      "minecraft:quartz:0": "minecraft: Nether Quartz",
+      "minecraft:ghast_tear:0": "minecraft: Ghast Tear",
+      "minecraft:flint:0": "minecraft: Flint",
+      "minecraft:coal:0": "minecraft: Coal",
+      "minecraft:diamond:0": "minecraft: Diamond",
+      "minecraft:emerald:0": "minecraft: Emerald",
+      "minecraft:redstone:0": "minecraft: Redstone",
+      "minecraft:glowstone_dust:0": "minecraft: Glowstone Dust",
+      "minecraft:gunpowder:0": "minecraft: Gunpowder",
+      "minecraft:blaze_powder:0": "minecraft: Blaze Powder",
+      "minecraft:chorus_flower:0": "minecraft: Chorus Flower",
+      "minecraft:prismarine_shard:0": "minecraft: Prismarine Shard",
+      "minecraft:prismarine_crystals:0": "minecraft: Prismarine Crystals",
+      "minecraft:brown_mushroom:0": "minecraft: Brown Mushroom",
+      "minecraft:red_mushroom:0": "minecraft: Red Mushroom",
+      "minecraft:rotten_flesh:0": "minecraft: Rotten Flesh",
+      "minecraft:waterlily:0": "minecraft: Lily Pad",
+      "minecraft:wheat_seeds:0": "minecraft: Wheat Seeds",
+      "minecraft:melon_seeds:0": "minecraft: Melon Seeds",
+      "minecraft:pumpkin_seeds:0": "minecraft: Pumpkin Seeds",
+      "minecraft:beetroot_seeds:0": "minecraft: Beetroot Seeds",
 
-  // ------------------------------------------------------------
-  // exnihiloadscensio
-  // ------------------------------------------------------------
+      // ------------------------------------------------------------
+      // MINECRAFT DYE
+      // Minecraft 1.10.2 metadata
+      // ------------------------------------------------------------
 
-  "exnihiloadscensio:blockDust:0": "exnihiloadscensio: Dust",
-  "exnihiloadscensio:blockNetherrackCrushed:0": "exnihiloadscensio: Crushed Netherrack",
-  "exnihiloadscensio:blockEndstoneCrushed:0": "exnihiloadscensio: Crushed Endstone",
+      "minecraft:dye:0": "minecraft: Ink Sac",
+      "minecraft:dye:1": "minecraft: Red Dye",
+      "minecraft:dye:2": "minecraft: Green Dye",
+      "minecraft:dye:3": "minecraft: Cocoa Beans",
+      "minecraft:dye:4": "minecraft: Lapis Lazuli",
+      "minecraft:dye:5": "minecraft: Purple Dye",
+      "minecraft:dye:6": "minecraft: Cyan Dye",
+      "minecraft:dye:7": "minecraft: Light Gray Dye",
+      "minecraft:dye:8": "minecraft: Gray Dye",
+      "minecraft:dye:9": "minecraft: Pink Dye",
+      "minecraft:dye:10": "minecraft: Lime Dye",
+      "minecraft:dye:11": "minecraft: Yellow Dye",
+      "minecraft:dye:12": "minecraft: Light Blue Dye",
+      "minecraft:dye:13": "minecraft: Magenta Dye",
+      "minecraft:dye:14": "minecraft: Orange Dye",
+      "minecraft:dye:15": "minecraft: Bone Meal",
 
-  "exnihiloadscensio:itemPebble:0": "exnihiloadscensio: Stone Pebble",
-  "exnihiloadscensio:itemPebble:1": "exnihiloadscensio: Granite Pebble",
-  "exnihiloadscensio:itemPebble:2": "exnihiloadscensio: Diorite Pebble",
-  "exnihiloadscensio:itemPebble:3": "exnihiloadscensio: Andesite Pebble",
+      // ------------------------------------------------------------
+      // exnihiloadscensio
+      // ------------------------------------------------------------
 
-  "exnihiloadscensio:itemMaterial:4": "exnihiloadscensio: Grass Seeds",
+      "exnihiloadscensio:blockDust:0": "exnihiloadscensio: Dust",
+      "exnihiloadscensio:blockNetherrackCrushed:0": "exnihiloadscensio: Crushed Netherrack",
+      "exnihiloadscensio:blockEndstoneCrushed:0": "exnihiloadscensio: Crushed Endstone",
 
-  "exnihiloadscensio:itemSeedAcacia:0": "exnihiloadscensio: Acacia Seeds",
-  "exnihiloadscensio:itemSeedBirch:0": "exnihiloadscensio: Birch Seeds",
-  "exnihiloadscensio:itemSeedCarrot:0": "exnihiloadscensio: Carrot Seeds",
-  "exnihiloadscensio:itemSeedDarkOak:0": "exnihiloadscensio: Dark Oak Seeds",
-  "exnihiloadscensio:itemSeedJungle:0": "exnihiloadscensio: Jungle Seeds",
-  "exnihiloadscensio:itemSeedOak:0": "exnihiloadscensio: Oak Seeds",
-  "exnihiloadscensio:itemSeedPotato:0": "exnihiloadscensio: Potato Seeds",
-  "exnihiloadscensio:itemSeedSpruce:0": "exnihiloadscensio: Spruce Seeds",
-  "exnihiloadscensio:itemSeedSugarcane:0": "exnihiloadscensio: Sugarcane Seeds",
-  "exnihiloadscensio:itemOreAluminium:0": "exnihiloadscensio: Aluminium Ore Piece",
-  "exnihiloadscensio:itemOreCopper:0": "exnihiloadscensio: Copper Ore Piece",
-  "exnihiloadscensio:itemOreGold:0": "exnihiloadscensio: Gold Ore Piece",
-  "exnihiloadscensio:itemOreIron:0": "exnihiloadscensio: Iron Ore Piece",
-  "exnihiloadscensio:itemOreLead:0": "exnihiloadscensio: Lead Ore Piece",
-  "exnihiloadscensio:itemOreNickel:0": "exnihiloadscensio: Nickel Ore Piece",
-  "exnihiloadscensio:itemOreSilver:0": "exnihiloadscensio: Silver Ore Piece",
+      "exnihiloadscensio:itemPebble:0": "exnihiloadscensio: Stone Pebble",
+      "exnihiloadscensio:itemPebble:1": "exnihiloadscensio: Granite Pebble",
+      "exnihiloadscensio:itemPebble:2": "exnihiloadscensio: Diorite Pebble",
+      "exnihiloadscensio:itemPebble:3": "exnihiloadscensio: Andesite Pebble",
+
+      "exnihiloadscensio:itemMaterial:4": "exnihiloadscensio: Grass Seeds",
+
+      "exnihiloadscensio:itemSeedAcacia:0": "exnihiloadscensio: Acacia Seeds",
+      "exnihiloadscensio:itemSeedBirch:0": "exnihiloadscensio: Birch Seeds",
+      "exnihiloadscensio:itemSeedCarrot:0": "exnihiloadscensio: Carrot Seeds",
+      "exnihiloadscensio:itemSeedDarkOak:0": "exnihiloadscensio: Dark Oak Seeds",
+      "exnihiloadscensio:itemSeedJungle:0": "exnihiloadscensio: Jungle Seeds",
+      "exnihiloadscensio:itemSeedOak:0": "exnihiloadscensio: Oak Seeds",
+      "exnihiloadscensio:itemSeedPotato:0": "exnihiloadscensio: Potato Seeds",
+      "exnihiloadscensio:itemSeedSpruce:0": "exnihiloadscensio: Spruce Seeds",
+      "exnihiloadscensio:itemSeedSugarcane:0": "exnihiloadscensio: Sugarcane Seeds",
+      "exnihiloadscensio:itemOreAluminium:0": "exnihiloadscensio: Aluminium Ore Piece",
+      "exnihiloadscensio:itemOreCopper:0": "exnihiloadscensio: Copper Ore Piece",
+      "exnihiloadscensio:itemOreGold:0": "exnihiloadscensio: Gold Ore Piece",
+      "exnihiloadscensio:itemOreIron:0": "exnihiloadscensio: Iron Ore Piece",
+      "exnihiloadscensio:itemOreLead:0": "exnihiloadscensio: Lead Ore Piece",
+      "exnihiloadscensio:itemOreNickel:0": "exnihiloadscensio: Nickel Ore Piece",
+      "exnihiloadscensio:itemOreSilver:0": "exnihiloadscensio: Silver Ore Piece",
 
 
 
-  // ------------------------------------------------------------
-  // actuallyadditions
-  // ------------------------------------------------------------
+      // ------------------------------------------------------------
+      // actuallyadditions
+      // ------------------------------------------------------------
 
-  "actuallyadditions:itemDust:7": "actuallyadditions: Crushed Black Quartz",
-  "actuallyadditions:itemCanolaSeed:0": "actuallyadditions: Canola Seeds",
-  "actuallyadditions:itemCoffeeSeed:0": "actuallyadditions: Coffee Seeds",
-  "actuallyadditions:itemFlaxSeed:0": "actuallyadditions: Flax Seed",
-  "actuallyadditions:itemMisc:5": "actuallyadditions: Black Quartz",
-  "actuallyadditions:itemRiceSeed:0": "actuallyadditions: Rice Seeds",
+      "actuallyadditions:itemDust:7": "actuallyadditions: Crushed Black Quartz",
+      "actuallyadditions:itemCanolaSeed:0": "actuallyadditions: Canola Seeds",
+      "actuallyadditions:itemCoffeeSeed:0": "actuallyadditions: Coffee Seeds",
+      "actuallyadditions:itemFlaxSeed:0": "actuallyadditions: Flax Seed",
+      "actuallyadditions:itemMisc:5": "actuallyadditions: Black Quartz",
+      "actuallyadditions:itemRiceSeed:0": "actuallyadditions: Rice Seeds",
 
-  // ------------------------------------------------------------
-  // natura
-  // ------------------------------------------------------------
-  
-  "natura:colored_grass:0": "natura: Topiary Grass"
+      // ------------------------------------------------------------
+      // natura
+      // ------------------------------------------------------------
 
-};
+      "natura:colored_grass:0": "natura: Topiary Grass"
 
-
-/* ============================================================
-   RETURN FRIENDLY NAME IF WE KNOW IT
-   OTHERWISE RETURN THE ORIGINAL ID
-   ============================================================ */
-
-function displayName(itemId) {
-
-  return itemNames[itemId] || itemId;
-
-}
+    };
 
 
-/* ============================================================
-   ITEM IMAGE
-   ============================================================ */
+    /* ============================================================
+       RETURN FRIENDLY NAME IF WE KNOW IT
+       OTHERWISE RETURN THE ORIGINAL ID
+       ============================================================ */
 
-function itemToImgHtml(itemName) {
+    function displayName(itemId) {
 
-  const cleanName = itemName
-    .replace(/[:.]/g, "_")
-    .replace(/\[TAG\]\s*/, "")
-    .toLowerCase();
+      return itemNames[itemId] || itemId;
 
-  const src = `img/items/${cleanName}.png`;
+    }
 
-  return `
+
+    /* ============================================================
+       ITEM IMAGE
+       ============================================================ */
+
+    function itemToImgHtml(itemName) {
+
+      const cleanName = itemName
+        .replace(/[:.]/g, "_")
+        .replace(/\[TAG\]\s*/, "")
+        .toLowerCase();
+
+      const src = `img/items/${cleanName}.png`;
+
+      return `
     <img
       src="${src}"
       alt="${itemName}"
@@ -376,133 +481,156 @@ function itemToImgHtml(itemName) {
       onerror="this.style.display='none';"
     />
   `;
-}
+    }
 
 
-/* ============================================================
-   DATA
-   ============================================================ */
+    /* ============================================================
+       DATA
+       ============================================================ */
 
-let allData = [];
+    let allData = [];
 
-let uniqueInputs = new Set();
+    let uniqueInputs = new Set();
 
-let uniqueOutputs = new Set();
+    let uniqueOutputs = new Set();
 
-let uniqueTiers = new Set();
+    let uniqueTiers = new Set();
 
-let selectedInputs = new Set();
+    let selectedInputs = new Set();
 
-let selectedOutputs = new Set();
+    let selectedOutputs = new Set();
 
+    let searchText = '';
 
-/* ============================================================
-   BUILD PIVOT TABLE
-   ============================================================ */
-
-function buildPivotTable() {
-
-  const filteredData = allData.filter(row => {
-
-    const inputMatch =
-      selectedInputs.size === 0 ||
-      selectedInputs.has(row.Input);
-
-    const outputMatch =
-      selectedOutputs.size === 0 ||
-      selectedOutputs.has(row.Output);
-
-    return inputMatch && outputMatch;
-
-  });
+    let searchMode = 'input';
 
 
-  const tiers =
-    Array.from(uniqueTiers)
-      .sort((a, b) => a - b);
+
+    /* ============================================================
+       BUILD PIVOT TABLE
+       ============================================================ */
+
+    function buildPivotTable() {
+
+      const filteredData = allData.filter(row => {
+
+        const inputMatch =
+          selectedInputs.size === 0 ||
+          selectedInputs.has(row.Input);
+
+        const outputMatch =
+          selectedOutputs.size === 0 ||
+          selectedOutputs.has(row.Output);
 
 
-  /*
-   * Each Input + Output combination becomes a row.
-   */
+        const searchItem =
+          searchMode === 'input'
+            ? row.Input
+            : row.Output;
 
-  const rowsKeys =
-    Array.from(
-      new Set(
-        filteredData.map(
-          r => r.Input + '||' + r.Output
+        const searchMatch =
+          searchText === '' ||
+          displayName(searchItem)
+            .toLowerCase()
+            .includes(searchText) ||
+          searchItem
+            .toLowerCase()
+            .includes(searchText);
+
+
+
+        return inputMatch && outputMatch && searchMatch;
+
+      });
+
+
+
+      const tiers =
+        Array.from(uniqueTiers)
+          .sort((a, b) => a - b);
+
+
+      /*
+       * Each Input + Output combination becomes a row.
+       */
+
+      const rowsKeys =
+        Array.from(
+          new Set(
+            filteredData.map(
+              r => r.Input + '||' + r.Output
+            )
+          )
         )
-      )
-    )
-    .sort((a, b) => {
+          .sort((a, b) => {
 
-      const [inA, outA] = a.split('||');
+            const [inA, outA] = a.split('||');
 
-      const [inB, outB] = b.split('||');
+            const [inB, outB] = b.split('||');
 
-      return (
-        inA.localeCompare(inB) ||
-        outA.localeCompare(outB)
-      );
+            return (
+              inA.localeCompare(inB) ||
+              outA.localeCompare(outB)
+            );
 
-    });
+          });
 
 
-  /* ----------------------------------------------------------
-     HEADER
-     ---------------------------------------------------------- */
+      /* ----------------------------------------------------------
+         HEADER
+         ---------------------------------------------------------- */
 
-  const headerTitles =
-    document.getElementById(
-      'pivot-header-titles'
-    );
+      const headerTitles =
+        document.getElementById(
+          'pivot-header-titles'
+        );
 
-  headerTitles.innerHTML =
-    '<th>Input</th><th>Output</th>';
+      headerTitles.innerHTML =
+        '<th>Input</th><th>Output</th>';
 
 
-tiers.forEach(tier => {
-  const meshName = meshNames[tier] || `Tier ${tier}`;
-  headerTitles.innerHTML += `
+      tiers.forEach(tier => {
+        const meshName = meshNames[tier] || `Tier ${tier}`;
+        headerTitles.innerHTML += `
     <th>
       ${meshName}<br>
       <small>Tier ${tier}</small>
     </th>
   `;
-});
+      });
 
 
 
-  /* ----------------------------------------------------------
-     BODY
-     ---------------------------------------------------------- */
+      /* ----------------------------------------------------------
+         BODY
+         ---------------------------------------------------------- */
 
-  const body =
-    document.getElementById(
-      'pivot-body'
-    );
+      const body =
+        document.getElementById(
+          'pivot-body'
+        );
 
-  body.innerHTML = '';
-
-
-  rowsKeys.forEach(key => {
-
-    const [input, output] =
-      key.split('||');
+      body.innerHTML = '';
 
 
-    const tr =
-      document.createElement('tr');
+      rowsKeys.forEach(key => {
+
+        const [input, output] =
+          key.split('||');
 
 
-    /* --------------------------------------------------------
-       INPUT
-       -------------------------------------------------------- */
+        const tr =
+          document.createElement('tr');
 
-    const tdInput =
-      document.createElement('td');
 
-    tdInput.innerHTML = `
+        /* --------------------------------------------------------
+           INPUT
+           -------------------------------------------------------- */
+
+        const tdInput =
+          document.createElement('td');
+
+        tdInput.innerHTML = `
 
       <div class="row-label">
 
@@ -520,17 +648,17 @@ tiers.forEach(tier => {
 
     `;
 
-    tr.appendChild(tdInput);
+        tr.appendChild(tdInput);
 
 
-    /* --------------------------------------------------------
-       OUTPUT
-       -------------------------------------------------------- */
+        /* --------------------------------------------------------
+           OUTPUT
+           -------------------------------------------------------- */
 
-    const tdOutput =
-      document.createElement('td');
+        const tdOutput =
+          document.createElement('td');
 
-    tdOutput.innerHTML = `
+        tdOutput.innerHTML = `
 
       <div class="row-label">
 
@@ -548,374 +676,423 @@ tiers.forEach(tier => {
 
     `;
 
-    tr.appendChild(tdOutput);
+        tr.appendChild(tdOutput);
 
 
-    /* --------------------------------------------------------
-       TIERS
-       -------------------------------------------------------- */
+        /* --------------------------------------------------------
+           TIERS
+           -------------------------------------------------------- */
 
-    tiers.forEach(tier => {
+        tiers.forEach(tier => {
 
-      const td =
-        document.createElement('td');
-
-
-      /*
-       * Find all matching rolls.
-       *
-       * This is important for SF3 because the same item can
-       * appear more than once for the same input and mesh.
-       */
-
-      const matches =
-        filteredData.filter(r =>
-          r.Input === input &&
-          r.Output === output &&
-          r.Tier === tier
-        );
+          const td =
+            document.createElement('td');
 
 
-      if (matches.length > 0) {
+          /*
+           * Find all matching rolls.
+           *
+           * This is important for SF3 because the same item can
+           * appear more than once for the same input and mesh.
+           */
 
-        /*
-         * Display every roll rather than silently losing
-         * duplicate entries.
-         */
+          const matches =
+            filteredData.filter(r =>
+              r.Input === input &&
+              r.Output === output &&
+              r.Tier === tier
+            );
 
-        td.innerHTML =
-          matches
-            .map(match =>
-              `<div class="cell-chance">
+
+          if (matches.length > 0) {
+
+            /*
+             * Display every roll rather than silently losing
+             * duplicate entries.
+             */
+
+            td.innerHTML =
+              matches
+                .map(match =>
+                  `<div class="cell-chance">
                 ${match.DropChance}
               </div>`
-            )
-            .join('');
+                )
+                .join('');
 
-      } else {
+          } else {
 
-        td.classList.add('empty');
+            td.classList.add('empty');
 
-        td.textContent = '-';
+            td.textContent = '-';
 
-      }
+          }
 
 
-      tr.appendChild(td);
-
-    });
-
-
-    body.appendChild(tr);
-
-  });
-
-}
-
-
-/* ============================================================
-   FILTERS
-   ============================================================ */
-
-function updateFilters() {
-
-  const inputFilter =
-    document.getElementById(
-      'input-filter'
-    );
-
-  const outputFilter =
-    document.getElementById(
-      'output-filter'
-    );
-
-
-  selectedInputs =
-    new Set(
-      Array.from(
-        inputFilter.selectedOptions
-      ).map(o => o.value)
-    );
-
-
-  selectedOutputs =
-    new Set(
-      Array.from(
-        outputFilter.selectedOptions
-      ).map(o => o.value)
-    );
-
-
-  buildPivotTable();
-
-}
-
-
-/* ============================================================
-   CLEAR FILTERS
-   ============================================================ */
-
-function clearFilters() {
-
-  const inputFilter =
-    document.getElementById(
-      'input-filter'
-    );
-
-  const outputFilter =
-    document.getElementById(
-      'output-filter'
-    );
-
-
-  for (
-    let i = 0;
-    i < inputFilter.options.length;
-    i++
-  ) {
-
-    inputFilter.options[i].selected = false;
-
-  }
-
-
-  for (
-    let i = 0;
-    i < outputFilter.options.length;
-    i++
-  ) {
-
-    outputFilter.options[i].selected = false;
-
-  }
-
-
-  selectedInputs.clear();
-
-  selectedOutputs.clear();
-
-  buildPivotTable();
-
-}
-
-
-/* ============================================================
-   EVENT HANDLERS
-   ============================================================ */
-
-document
-  .getElementById('input-filter')
-  .addEventListener(
-    'change',
-    updateFilters
-  );
-
-
-document
-  .getElementById('output-filter')
-  .addEventListener(
-    'change',
-    updateFilters
-  );
-
-
-document
-  .getElementById('clear-filters')
-  .addEventListener(
-    'click',
-    clearFilters
-  );
-
-
-/* ============================================================
-   LOAD CSV
-   ============================================================ */
-
-fetch('sieve_recipes.csv')
-
-  .then(r => {
-
-    if (!r.ok) {
-
-      throw new Error(
-        `HTTP ${r.status} loading sieve_recipes.csv`
-      );
-
-    }
-
-    return r.text();
-
-  })
-
-  .then(text => {
-
-    const parsed =
-      Papa.parse(
-        text,
-        {
-          header: true,
-          skipEmptyLines: true
-        }
-      );
-
-
-    /* --------------------------------------------------------
-       LOAD EACH CSV ROW
-       -------------------------------------------------------- */
-
-    parsed.data.forEach(row => {
-
-      if (
-        row.Input &&
-        row.Output &&
-        row.Tier
-      ) {
-
-        allData.push({
-
-          Source:
-            row.Source,
-
-          Input:
-            row.Input,
-
-          Mesh:
-            row.Mesh,
-
-          Output:
-            row.Output,
-
-          Count:
-            row.Count,
-
-          DropChance:
-            row.DropChance,
-
-          Tier:
-            Number(row.Tier)
+          tr.appendChild(td);
 
         });
 
 
-        uniqueInputs.add(
-          row.Input
+        body.appendChild(tr);
+
+      });
+
+    }
+
+
+    /* ============================================================
+       FILTERS
+       ============================================================ */
+
+    function updateFilters() {
+
+      const inputFilter =
+        document.getElementById(
+          'input-filter'
         );
 
-        uniqueOutputs.add(
-          row.Output
+      const outputFilter =
+        document.getElementById(
+          'output-filter'
         );
 
-        uniqueTiers.add(
-          Number(row.Tier)
+
+      selectedInputs =
+        new Set(
+          Array.from(
+            inputFilter.selectedOptions
+          ).map(o => o.value)
         );
+
+
+      selectedOutputs =
+        new Set(
+          Array.from(
+            outputFilter.selectedOptions
+          ).map(o => o.value)
+        );
+
+
+      buildPivotTable();
+
+    }
+
+
+    /* ============================================================
+       CLEAR FILTERS
+       ============================================================ */
+
+    function clearFilters() {
+
+      const inputFilter =
+        document.getElementById(
+          'input-filter'
+        );
+
+      const outputFilter =
+        document.getElementById(
+          'output-filter'
+        );
+
+
+      for (
+        let i = 0;
+        i < inputFilter.options.length;
+        i++
+      ) {
+
+        inputFilter.options[i].selected = false;
 
       }
 
-    });
+
+      for (
+        let i = 0;
+        i < outputFilter.options.length;
+        i++
+      ) {
+
+        outputFilter.options[i].selected = false;
+
+      }
 
 
-    /* --------------------------------------------------------
-       POPULATE INPUT FILTER
-       -------------------------------------------------------- */
+      selectedInputs.clear();
 
-    const inputFilter =
-      document.getElementById(
-        'input-filter'
+      selectedOutputs.clear();
+
+      searchText = '';
+
+      document.getElementById('item-search').value = '';
+
+      document.querySelector(
+        'input[name="search-mode"][value="input"]'
+      ).checked = true;
+
+      searchMode = 'input';
+
+
+      buildPivotTable();
+
+    }
+
+
+    /* ============================================================
+       EVENT HANDLERS
+       ============================================================ */
+
+    document
+      .getElementById('input-filter')
+      .addEventListener(
+        'change',
+        updateFilters
       );
 
 
-    Array.from(uniqueInputs)
+    document
+      .getElementById('output-filter')
+      .addEventListener(
+        'change',
+        updateFilters
+      );
 
-      .sort((a, b) => {
 
-        return displayName(a)
-          .localeCompare(
-            displayName(b)
-          );
+    /* ------------------------------------------------------------
+       SEARCH
+       ------------------------------------------------------------ */
 
-      })
+    document
+      .getElementById('item-search')
+      .addEventListener('input', event => {
 
-      .forEach(val => {
+        searchText =
+          event.target.value
+            .trim()
+            .toLowerCase();
 
-        const opt =
-          document.createElement(
-            'option'
-          );
-
-        opt.value = val;
-
-        opt.textContent =
-          displayName(val);
-
-        inputFilter.appendChild(opt);
+        buildPivotTable();
 
       });
 
 
-    /* --------------------------------------------------------
-       POPULATE OUTPUT FILTER
-       -------------------------------------------------------- */
+    document
+      .querySelectorAll('input[name="search-mode"]')
+      .forEach(radio => {
 
-    const outputFilter =
-      document.getElementById(
-        'output-filter'
-      );
+        radio.addEventListener('change', event => {
 
+          searchMode = event.target.value;
 
-    Array.from(uniqueOutputs)
+          buildPivotTable();
 
-      .sort((a, b) => {
-
-        return displayName(a)
-          .localeCompare(
-            displayName(b)
-          );
-
-      })
-
-      .forEach(val => {
-
-        const opt =
-          document.createElement(
-            'option'
-          );
-
-        opt.value = val;
-
-        opt.textContent =
-          displayName(val);
-
-        outputFilter.appendChild(opt);
+        });
 
       });
 
 
-    /* --------------------------------------------------------
-       BUILD INITIAL TABLE
-       -------------------------------------------------------- */
+    /* ------------------------------------------------------------
+       CLEAR FILTERS
+       ------------------------------------------------------------ */
 
-    buildPivotTable();
-
-  })
-
-
-  /* ==========================================================
-     ERROR HANDLING
-     ========================================================== */
-
-  .catch(err => {
-
-    console.error(
-      'Error loading CSV:',
-      err
-    );
+    document
+      .getElementById('clear-filters')
+      .addEventListener(
+        'click',
+        clearFilters
+      );
 
 
-    document.body.insertAdjacentHTML(
 
-      'beforeend',
+    /* ============================================================
+       LOAD CSV
+       ============================================================ */
 
-      `
+    fetch('sieve_recipes.csv')
+
+      .then(r => {
+
+        if (!r.ok) {
+
+          throw new Error(
+            `HTTP ${r.status} loading sieve_recipes.csv`
+          );
+
+        }
+
+        return r.text();
+
+      })
+
+      .then(text => {
+
+        const parsed =
+          Papa.parse(
+            text,
+            {
+              header: true,
+              skipEmptyLines: true
+            }
+          );
+
+
+        /* --------------------------------------------------------
+           LOAD EACH CSV ROW
+           -------------------------------------------------------- */
+
+        parsed.data.forEach(row => {
+
+          if (
+            row.Input &&
+            row.Output &&
+            row.Tier
+          ) {
+
+            allData.push({
+
+              Source:
+                row.Source,
+
+              Input:
+                row.Input,
+
+              Mesh:
+                row.Mesh,
+
+              Output:
+                row.Output,
+
+              Count:
+                row.Count,
+
+              DropChance:
+                row.DropChance,
+
+              Tier:
+                Number(row.Tier)
+
+            });
+
+
+            uniqueInputs.add(
+              row.Input
+            );
+
+            uniqueOutputs.add(
+              row.Output
+            );
+
+            uniqueTiers.add(
+              Number(row.Tier)
+            );
+
+          }
+
+        });
+
+
+        /* --------------------------------------------------------
+           POPULATE INPUT FILTER
+           -------------------------------------------------------- */
+
+        const inputFilter =
+          document.getElementById(
+            'input-filter'
+          );
+
+
+        Array.from(uniqueInputs)
+
+          .sort((a, b) => {
+
+            return displayName(a)
+              .localeCompare(
+                displayName(b)
+              );
+
+          })
+
+          .forEach(val => {
+
+            const opt =
+              document.createElement(
+                'option'
+              );
+
+            opt.value = val;
+
+            opt.textContent =
+              displayName(val);
+
+            inputFilter.appendChild(opt);
+
+          });
+
+
+        /* --------------------------------------------------------
+           POPULATE OUTPUT FILTER
+           -------------------------------------------------------- */
+
+        const outputFilter =
+          document.getElementById(
+            'output-filter'
+          );
+
+
+        Array.from(uniqueOutputs)
+
+          .sort((a, b) => {
+
+            return displayName(a)
+              .localeCompare(
+                displayName(b)
+              );
+
+          })
+
+          .forEach(val => {
+
+            const opt =
+              document.createElement(
+                'option'
+              );
+
+            opt.value = val;
+
+            opt.textContent =
+              displayName(val);
+
+            outputFilter.appendChild(opt);
+
+          });
+
+
+        /* --------------------------------------------------------
+           BUILD INITIAL TABLE
+           -------------------------------------------------------- */
+
+        buildPivotTable();
+
+      })
+
+
+      /* ==========================================================
+         ERROR HANDLING
+         ========================================================== */
+
+      .catch(err => {
+
+        console.error(
+          'Error loading CSV:',
+          err
+        );
+
+
+        document.body.insertAdjacentHTML(
+
+          'beforeend',
+
+          `
         <p style="
           color:red;
           text-align:center;
@@ -924,11 +1101,12 @@ fetch('sieve_recipes.csv')
         </p>
       `
 
-    );
+        );
 
-  });
+      });
 
-</script>
+  </script>
 
 </body>
+
 </html>
