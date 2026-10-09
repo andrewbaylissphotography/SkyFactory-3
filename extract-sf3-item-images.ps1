@@ -163,16 +163,16 @@ $customMappings = @{
     # exnihiloadscensio
     # ========================================================
 
-"exnihiloadscensio:itemSeedAcacia:0"    = "seedAcacia"
-"exnihiloadscensio:itemSeedBirch:0"     = "seedBirch"
-"exnihiloadscensio:itemSeedCarrot:0"    = "seedCarrot"
-"exnihiloadscensio:itemSeedDarkOak:0"   = "seedDarkOak"
-"exnihiloadscensio:itemSeedJungle:0"    = "seedJungle"
-"exnihiloadscensio:itemSeedOak:0"       = "seedOak"
-"exnihiloadscensio:itemSeedPotato:0"    = "seedPotato"
-"exnihiloadscensio:itemSeedSpruce:0"    = "seedSpruce"
-"exnihiloadscensio:itemSeedSugarcane:0" = "seedSugarCane"
-"exnihiloadscensio:itemSeedCactus:0"    = "seedCactus"
+    "exnihiloadscensio:itemSeedAcacia:0"    = "seedAcacia"
+    "exnihiloadscensio:itemSeedBirch:0"     = "seedBirch"
+    "exnihiloadscensio:itemSeedCarrot:0"    = "seedCarrot"
+    "exnihiloadscensio:itemSeedDarkOak:0"   = "seedDarkOak"
+    "exnihiloadscensio:itemSeedJungle:0"    = "seedJungle"
+    "exnihiloadscensio:itemSeedOak:0"       = "seedOak"
+    "exnihiloadscensio:itemSeedPotato:0"    = "seedPotato"
+    "exnihiloadscensio:itemSeedSpruce:0"    = "seedSpruce"
+    "exnihiloadscensio:itemSeedSugarcane:0" = "seedSugarCane"
+    "exnihiloadscensio:itemSeedCactus:0"    = "seedCactus"
 
 }
 
